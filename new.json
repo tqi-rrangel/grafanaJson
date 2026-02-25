@@ -1,4 +1,170 @@
 {
+  "panels": [
+    {
+      "type": "gauge",
+      "title": "SLO Push (%)",
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "c7VwfHunk" },
+      "targets": [
+        {
+          "expr": "(\n  sum(increase(notification_push_process_success_total[$__range])) /\n  (\n    sum(increase(notification_push_process_success_total[$__range])) +\n    sum(increase(notification_push_process_error_total[$__range]))\n  )\n) * 100",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 95 },
+              { "color": "green", "value": 99 }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "gauge",
+      "title": "SLO Email (%)",
+      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "c7VwfHunk" },
+      "targets": [
+        {
+          "expr": "(\n  sum(increase(notification_email_process_success_total[$__range])) /\n  (\n    sum(increase(notification_email_process_success_total[$__range])) +\n    sum(increase(notification_email_process_error_total[$__range]))\n  )\n) * 100",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "max": 100,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 95 },
+              { "color": "green", "value": 99 }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "Throughput Total (Push vs Email)",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
+      "datasource": { "type": "prometheus", "uid": "c7VwfHunk" },
+      "targets": [
+        {
+          "expr": "sum(increase(notification_push_process_success_total[$__range]))",
+          "legendFormat": "push_total",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(increase(notification_email_process_success_total[$__range]))",
+          "legendFormat": "email_total",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Push - Processamento (Sucesso vs Erro)",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
+      "datasource": { "type": "prometheus", "uid": "c7VwfHunk" },
+      "targets": [
+        {
+          "expr": "sum(increase(notification_push_process_success_total[$__range]))",
+          "legendFormat": "sucesso",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(increase(notification_push_process_error_total[$__range]))",
+          "legendFormat": "erro",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Email - Processamento (Sucesso vs Erro)",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 14 },
+      "datasource": { "type": "prometheus", "uid": "c7VwfHunk" },
+      "targets": [
+        {
+          "expr": "sum(increase(notification_email_process_success_total[$__range]))",
+          "legendFormat": "sucesso",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(increase(notification_email_process_error_total[$__range]))",
+          "legendFormat": "erro",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Retry (Push vs Email)",
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 22 },
+      "datasource": { "type": "prometheus", "uid": "c7VwfHunk" },
+      "targets": [
+        {
+          "expr": "sum(increase(notification_push_retry_total[$__range]))",
+          "legendFormat": "push_retry",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(increase(notification_email_retry_total[$__range]))",
+          "legendFormat": "email_retry",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Falhas Irrecuperáveis",
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 30 },
+      "datasource": { "type": "prometheus", "uid": "c7VwfHunk" },
+      "targets": [
+        {
+          "expr": "sum(increase(notification_push_irretrievable_failure_total[$__range]))",
+          "legendFormat": "push_irrecuperável",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(increase(notification_email_irretrievable_failure_total[$__range]))",
+          "legendFormat": "email_irrecuperável",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "DLQ Processado",
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 38 },
+      "datasource": { "type": "prometheus", "uid": "c7VwfHunk" },
+      "targets": [
+        {
+          "expr": "sum(increase(notification_push_dlq_processed_success_total[$__range]))",
+          "legendFormat": "push_dlq",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(increase(notification_email_dlq_processed_success_total[$__range]))",
+          "legendFormat": "email_dlq",
+          "refId": "B"
+        }
+      ]
+    }
+  ],
+},
+
+
+{
   "annotations": {
     "list": [
       {
@@ -24,7 +190,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "IFMNliU7z"
+        "uid": "c7VwfHunk"
       },
       "fieldConfig": {
         "defaults": {
@@ -40,11 +206,11 @@
               },
               {
                 "color": "yellow",
-                "value": 60
+                "value": 95
               },
               {
                 "color": "green",
-                "value": 80
+                "value": 99
               }
             ]
           }
@@ -76,9 +242,7 @@
       "pluginVersion": "12.2.1",
       "targets": [
         {
-          "editorMode": "code",
           "expr": "(\n  sum(increase(notification_push_process_success_total[$__range])) /\n  (\n    sum(increase(notification_push_process_success_total[$__range])) +\n    sum(increase(notification_push_process_error_total[$__range]))\n  )\n) * 100",
-          "range": true,
           "refId": "A"
         }
       ],
@@ -88,7 +252,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "IFMNliU7z"
+        "uid": "c7VwfHunk"
       },
       "fieldConfig": {
         "defaults": {
@@ -104,11 +268,11 @@
               },
               {
                 "color": "yellow",
-                "value": 60
+                "value": 95
               },
               {
                 "color": "green",
-                "value": 80
+                "value": 99
               }
             ]
           }
@@ -150,7 +314,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "IFMNliU7z"
+        "uid": "c7VwfHunk"
       },
       "fieldConfig": {
         "defaults": {
@@ -231,17 +395,13 @@
       "pluginVersion": "12.2.1",
       "targets": [
         {
-          "editorMode": "code",
-          "expr": "sum(increase(notification_push_process_success[$__range]))",
+          "expr": "sum(increase(notification_push_process_success_total[$__range]))",
           "legendFormat": "sucesso",
-          "range": true,
           "refId": "A"
         },
         {
-          "editorMode": "code",
-          "expr": "sum(increase(notification_push_process_error[$__range]))",
+          "expr": "sum(increase(notification_push_process_error_total[$__range]))",
           "legendFormat": "erro",
-          "range": true,
           "refId": "B"
         }
       ],
@@ -251,7 +411,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "IFMNliU7z"
+        "uid": "c7VwfHunk"
       },
       "fieldConfig": {
         "defaults": {
@@ -348,7 +508,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "IFMNliU7z"
+        "uid": "c7VwfHunk"
       },
       "fieldConfig": {
         "defaults": {
@@ -445,7 +605,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "IFMNliU7z"
+        "uid": "c7VwfHunk"
       },
       "fieldConfig": {
         "defaults": {
@@ -542,7 +702,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "IFMNliU7z"
+        "uid": "c7VwfHunk"
       },
       "fieldConfig": {
         "defaults": {
@@ -639,7 +799,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "IFMNliU7z"
+        "uid": "c7VwfHunk"
       },
       "fieldConfig": {
         "defaults": {
@@ -742,12 +902,12 @@
     "list": []
   },
   "time": {
-    "from": "now-90d",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "insurance-notification",
   "uid": "razmg24",
-  "version": 46
+  "version": 45
 }
