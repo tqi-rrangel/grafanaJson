@@ -1,0 +1,92 @@
+    NOTIFICATION_PUSH_VALIDATION_SUCCESS(
+        "notification_push_validation_success_total", "Notification push validation succeeded"
+    ),
+    NOTIFICATION_PUSH_VALIDATION_FAILURE(
+        "notification_push_validation_failure_total", "Notification push validation failure"
+    ),
+    NOTIFICATION_PUSH_RETRY(
+        "notification_push_retry_total", "RabbitMQ message retried"
+    ),
+    NOTIFICATION_PUSH_DLQ_PROCESSED_SUCCESS(
+        "notification_push_dlq_processed_success_total", "Notification push processed successfully from DLQ"
+    ),
+    NOTIFICATION_PUSH_IRRETRIEVABLE_FAILURE(
+        "notification_push_irretrievable_failure_total", "Irrecoverable failure during notification push"
+    ),
+    NOTIFICATION_PUSH_FAILURE(
+        "notification_push_failure_total", "A failure occurred during the notification push process"
+    ),
+    NOTIFICATION_PUSH_FACTORY_SUCCESS(
+        "notification_push_factory_success_total", "NotificationPushFactory resolved component successfully"
+    ),
+    NOTIFICATION_PUSH_FACTORY_ERROR(
+        "notification_push_factory_error_total", "Error obtaining component in NotificationPushFactory"
+    ),
+    NOTIFICATION_PUSH_PROCESS_ERROR(
+        "notification_push_process_error_total", "Error processing notification push"
+    ),
+    NOTIFICATION_PUSH_PROCESS_SUCCESS(
+        "notification_push_process_success_total", "Notification push processed successfully"
+    ),
+    NOTIFICATION_PUSH_CONSUMED(
+        "notification_push_consumed_total", "Notification push message consumed from Kafka"
+    ),
+
+    NOTIFICATION_EMAIL_RETRY(
+        "notification_email_retry_total", "Notification email message retried"
+    ),
+    NOTIFICATION_EMAIL_IRRETRIEVABLE_FAILURE(
+        "notification_email_irretrievable_failure_total", "Irrecoverable failure during notification email"
+    ),
+    NOTIFICATION_EMAIL_FAILURE(
+        "notification_email_failure_total", "A failure occurred during the notification email process"
+    ),
+    NOTIFICATION_EMAIL_PROCESS_SUCCESS(
+        "notification_email_processed_total", "Notification email processed successfully"
+    ),
+    NOTIFICATION_EMAIL_DLQ_PROCESSED_SUCCESS(
+        "email_dlq_processed_success_total", "Email processed successfully from DLQ"
+    ),
+    NOTIFICATION_EMAIL_FACTORY_SUCCESS(
+        "email_factory_success_total", "Email factory resolved component successfully"
+    ),
+    NOTIFICATION_EMAIL_FACTORY_ERROR(
+        "email_factory_error_total", "Error obtaining component in Email factory"
+    ),
+    NOTIFICATION_EMAIL_VALIDATION_SUCCESS(
+        "email_validation_success_total", "Email validation succeeded"
+    ),
+    NOTIFICATION_EMAIL_VALIDATION_FAILURE(
+        "email_validation_failure_total", "Email validation failure"
+    ),
+
+    NOTIFICATION_PUSH_ENQUEUED_SUCCESS(
+        "notification_push_enqueued_success_total", "Notification push enqueued successfully"
+    ),
+    NOTIFICATION_PUSH_ENQUEUED_FAILURE(
+        "notification_push_enqueued_failure_total", "Notification push enqueue failure"
+    ),
+    NOTIFICATION_EMAIL_ENQUEUED_SUCCESS(
+        "notification_email_enqueued_success_total", "Notification email enqueued successfully"
+    ),
+    NOTIFICATION_EMAIL_ENQUEUED_FAILURE(
+        "notification_email_enqueued_failure_total", "Notification email enqueue failure"
+    ),
+    NOTIFICATION_EMAIL_VALIDATION_ENQUEUED_SUCCESS(
+        "notification_email_validation_enqueued_success_total", "Notification email validation enqueued successfully"
+    ),
+    NOTIFICATION_EMAIL_VALIDATION_ENQUEUED_FAILURE(
+        "notification_email_validation_enqueued_failure_total", "Notification email validation enqueue failure"
+    ),
+    NOTIFICATION_IMEI_VALIDATION_ENQUEUED_SUCCESS(
+        "notification_imei_validation_enqueued_success_total", "Notification IMEI validation enqueued successfully"
+    ),
+    NOTIFICATION_IMEI_VALIDATION_ENQUEUED_FAILURE(
+        "notification_imei_validation_enqueued_failure_total", "Notification IMEI validation enqueue failure"
+    ),
+    NOTIFICATION_PUSH_VALIDATION_ENQUEUED_SUCCESS(
+        "notification_push_validation_enqueued_success_total", "Notification push validation enqueued successfully"
+    ),
+    NOTIFICATION_PUSH_VALIDATION_ENQUEUED_FAILURE(
+        "notification_push_validation_enqueued_failure_total", "Notification push validation enqueue failure"
+    )
