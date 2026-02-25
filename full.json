@@ -1,25 +1,4 @@
 {
-  "annotations": {
-    "list": [
-      {
-        "builtIn": 1,
-        "datasource": {
-          "type": "grafana",
-          "uid": "-- Grafana --"
-        },
-        "enable": true,
-        "hide": true,
-        "iconColor": "rgba(0, 211, 255, 1)",
-        "name": "Annotations & Alerts",
-        "type": "dashboard"
-      }
-    ]
-  },
-  "editable": true,
-  "fiscalYearStartMonth": 0,
-  "graphTooltip": 0,
-  "id": 0,
-  "links": [],
   "panels": [
     {
       "datasource": {
@@ -40,11 +19,11 @@
               },
               {
                 "color": "yellow",
-                "value": 60
+                "value": 95
               },
               {
                 "color": "green",
-                "value": 80
+                "value": 99
               }
             ]
           }
@@ -76,9 +55,7 @@
       "pluginVersion": "12.2.1",
       "targets": [
         {
-          "editorMode": "code",
-          "expr": "(\n  sum(increase(notification_push_process_success_total[$__range])) /\n  (\n    sum(increase(notification_push_process_success_total[$__range])) +\n    sum(increase(notification_push_process_error_total[$__range]))\n  )\n) * 100",
-          "range": true,
+          "expr": "(sum(increase(notification_push_process_success[$__range])) / (sum(increase(notification_push_process_success[$__range])) + sum(increase(notification_push_process_error[$__range])))) * 100",
           "refId": "A"
         }
       ],
@@ -104,11 +81,11 @@
               },
               {
                 "color": "yellow",
-                "value": 60
+                "value": 95
               },
               {
                 "color": "green",
-                "value": 80
+                "value": 99
               }
             ]
           }
@@ -140,7 +117,7 @@
       "pluginVersion": "12.2.1",
       "targets": [
         {
-          "expr": "(\n  sum(increase(notification_email_process_success_total[$__range])) /\n  (\n    sum(increase(notification_email_process_success_total[$__range])) +\n    sum(increase(notification_email_process_error_total[$__range]))\n  )\n) * 100",
+          "expr": "(sum(increase(notification_email_processed[$__range])) / (sum(increase(notification_email_processed[$__range])) + sum(increase(notification_email_failure[$__range])))) * 100",
           "refId": "A"
         }
       ],
@@ -214,7 +191,7 @@
         "x": 12,
         "y": 0
       },
-      "id": 4,
+      "id": 11,
       "options": {
         "legend": {
           "calcs": [],
@@ -232,20 +209,20 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum(increase(notification_push_process_success[$__range]))",
+          "expr": "sum(increase(notification_email_processed[$__range]))",
           "legendFormat": "sucesso",
           "range": true,
           "refId": "A"
         },
         {
           "editorMode": "code",
-          "expr": "sum(increase(notification_push_process_error[$__range]))",
-          "legendFormat": "erro",
+          "expr": "sum(increase(notification_email_failure[$__range]))",
+          "legendFormat": "falha",
           "range": true,
           "refId": "B"
         }
       ],
-      "title": "Push - Processamento (Sucesso vs Erro)",
+      "title": "Processamento Email (Sucesso vs Falha)",
       "type": "timeseries"
     },
     {
@@ -310,12 +287,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 10,
+        "h": 8,
         "w": 12,
         "x": 0,
         "y": 6
       },
-      "id": 3,
+      "id": 12,
       "options": {
         "legend": {
           "calcs": [],
@@ -332,17 +309,21 @@
       "pluginVersion": "12.2.1",
       "targets": [
         {
-          "expr": "sum(increase(notification_push_process_success_total[$__range]))",
-          "legendFormat": "push_total",
+          "editorMode": "code",
+          "expr": "sum(increase(notification_push_process_success[$__range]))",
+          "legendFormat": "sucesso",
+          "range": true,
           "refId": "A"
         },
         {
-          "expr": "sum(increase(notification_email_process_success_total[$__range]))",
-          "legendFormat": "email_total",
+          "editorMode": "code",
+          "expr": "sum(increase(notification_push_process_error[$__range]))",
+          "legendFormat": "falha",
+          "range": true,
           "refId": "B"
         }
       ],
-      "title": "Throughput Total (Push vs Email)",
+      "title": "Processamento Push (Sucesso vs Falha)",
       "type": "timeseries"
     },
     {
@@ -412,7 +393,7 @@
         "x": 12,
         "y": 8
       },
-      "id": 5,
+      "id": 4,
       "options": {
         "legend": {
           "calcs": [],
@@ -429,17 +410,114 @@
       "pluginVersion": "12.2.1",
       "targets": [
         {
-          "expr": "sum(increase(notification_email_process_success_total[$__range]))",
+          "expr": "sum(increase(email_validation_success[$__range]))",
           "legendFormat": "sucesso",
           "refId": "A"
         },
         {
-          "expr": "sum(increase(notification_email_process_error_total[$__range]))",
-          "legendFormat": "erro",
+          "expr": "sum(increase(email_validation_failure[$__range]))",
+          "legendFormat": "falha",
           "refId": "B"
         }
       ],
-      "title": "Email - Processamento (Sucesso vs Erro)",
+      "title": "Validação Email (Sucesso vs Falha)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "IFMNliU7z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 14
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.2.1",
+      "targets": [
+        {
+          "expr": "sum(increase(notification_push_validation_success[$__range]))",
+          "legendFormat": "sucesso",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(increase(notification_push_validation_failure[$__range]))",
+          "legendFormat": "falha",
+          "refId": "B"
+        }
+      ],
+      "title": "Validação Push (Sucesso vs Falha)",
       "type": "timeseries"
     },
     {
@@ -507,9 +585,9 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 16
+        "y": 22
       },
-      "id": 6,
+      "id": 5,
       "options": {
         "legend": {
           "calcs": [],
@@ -526,12 +604,211 @@
       "pluginVersion": "12.2.1",
       "targets": [
         {
-          "expr": "sum(increase(notification_push_retry_total[$__range]))",
+          "expr": "sum(increase(notification_push_factory_success[$__range]))",
+          "legendFormat": "push_factory_ok",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(increase(notification_push_factory_error[$__range]))",
+          "legendFormat": "push_factory_error",
+          "refId": "B"
+        },
+        {
+          "expr": "sum(increase(email_factory_success[$__range]))",
+          "legendFormat": "email_factory_ok",
+          "refId": "C"
+        },
+        {
+          "expr": "sum(increase(email_factory_error[$__range]))",
+          "legendFormat": "email_factory_error",
+          "refId": "D"
+        }
+      ],
+      "title": "Factory (Push vs Email)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "IFMNliU7z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 30
+      },
+      "id": 7,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.2.1",
+      "targets": [
+        {
+          "expr": "sum(increase(notification_push_consumed[$__range]))",
+          "legendFormat": "consumido",
+          "refId": "A"
+        }
+      ],
+      "title": "Consumo Kafka Push",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "IFMNliU7z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 30
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.2.1",
+      "targets": [
+        {
+          "expr": "sum(increase(notification_push_retry[$__range]))",
           "legendFormat": "push_retry",
           "refId": "A"
         },
         {
-          "expr": "sum(increase(notification_email_retry_total[$__range]))",
+          "expr": "sum(increase(notification_email_retry[$__range]))",
           "legendFormat": "email_retry",
           "refId": "B"
         }
@@ -604,9 +881,9 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 24
+        "y": 38
       },
-      "id": 7,
+      "id": 9,
       "options": {
         "legend": {
           "calcs": [],
@@ -623,17 +900,27 @@
       "pluginVersion": "12.2.1",
       "targets": [
         {
-          "expr": "sum(increase(notification_push_irretrievable_failure_total[$__range]))",
-          "legendFormat": "push_irrecuperável",
+          "expr": "sum(increase(notification_push_failure[$__range]))",
+          "legendFormat": "push_falha",
           "refId": "A"
         },
         {
-          "expr": "sum(increase(notification_email_irretrievable_failure_total[$__range]))",
-          "legendFormat": "email_irrecuperável",
+          "expr": "sum(increase(notification_push_irretrievable_failure[$__range]))",
+          "legendFormat": "push_irrecuperável",
           "refId": "B"
+        },
+        {
+          "expr": "sum(increase(notification_email_failure[$__range]))",
+          "legendFormat": "email_falha",
+          "refId": "C"
+        },
+        {
+          "expr": "sum(increase(notification_email_irretrievable_failure[$__range]))",
+          "legendFormat": "email_irrecuperável",
+          "refId": "D"
         }
       ],
-      "title": "Falhas Irrecuperáveis",
+      "title": "Falhas (Gerais vs Irrecuperáveis)",
       "type": "timeseries"
     },
     {
@@ -701,9 +988,9 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 32
+        "y": 46
       },
-      "id": 8,
+      "id": 6,
       "options": {
         "legend": {
           "calcs": [],
@@ -720,34 +1007,145 @@
       "pluginVersion": "12.2.1",
       "targets": [
         {
-          "expr": "sum(increase(notification_push_dlq_processed_success_total[$__range]))",
-          "legendFormat": "push_dlq",
+          "expr": "sum(increase(notification_push_enqueued_success[$__range]))",
+          "legendFormat": "push_enqueued_ok",
           "refId": "A"
         },
         {
-          "expr": "sum(increase(notification_email_dlq_processed_success_total[$__range]))",
-          "legendFormat": "email_dlq",
+          "expr": "sum(increase(notification_push_enqueued_failure[$__range]))",
+          "legendFormat": "push_enqueued_error",
           "refId": "B"
+        },
+        {
+          "expr": "sum(increase(notification_email_enqueued_success[$__range]))",
+          "legendFormat": "email_enqueued_ok",
+          "refId": "C"
+        },
+        {
+          "expr": "sum(increase(notification_email_enqueued_failure[$__range]))",
+          "legendFormat": "email_enqueued_error",
+          "refId": "D"
         }
       ],
-      "title": "DLQ Processado",
+      "title": "Enfileiramento (Push vs Email)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "IFMNliU7z"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "showValues": false,
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 54
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "12.2.1",
+      "targets": [
+        {
+          "expr": "sum(increase(notification_push_validation_enqueued_success[$__range]))",
+          "legendFormat": "push_validation_ok",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(increase(notification_push_validation_enqueued_failure[$__range]))",
+          "legendFormat": "push_validation_error",
+          "refId": "B"
+        },
+        {
+          "expr": "sum(increase(notification_email_validation_enqueued_success[$__range]))",
+          "legendFormat": "email_validation_ok",
+          "refId": "C"
+        },
+        {
+          "expr": "sum(increase(notification_email_validation_enqueued_failure[$__range]))",
+          "legendFormat": "email_validation_error",
+          "refId": "D"
+        },
+        {
+          "expr": "sum(increase(notification_imei_validation_enqueued_success[$__range]))",
+          "legendFormat": "imei_ok",
+          "refId": "E"
+        },
+        {
+          "expr": "sum(increase(notification_imei_validation_enqueued_failure[$__range]))",
+          "legendFormat": "imei_error",
+          "refId": "F"
+        }
+      ],
+      "title": "Validação Enfileirada (Push, Email, IMEI)",
       "type": "timeseries"
     }
   ],
-  "preload": false,
-  "refresh": "",
-  "schemaVersion": 42,
-  "tags": [],
-  "templating": {
-    "list": []
-  },
-  "time": {
-    "from": "now-90d",
-    "to": "now"
-  },
-  "timepicker": {},
-  "timezone": "browser",
-  "title": "insurance-notification",
-  "uid": "razmg24",
-  "version": 46
 }
